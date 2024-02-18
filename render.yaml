@@ -16,7 +16,7 @@ services:
     runtime: image
     plan: free
     image:
-      url: docker.io/erikbrudzinskis/fibonacci-api:master
+      url: docker.io/erikbrudzinskis/fibonacci-server:master
   - type: web
     name: worker
     runtime: image
