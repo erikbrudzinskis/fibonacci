@@ -1,0 +1,71 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+  redis:
+    image: 'redis:latest'
+  api:
+    depends_on:
+      - postgres
+      - redis
+    build:
+      # dockerfile - only specifies the name of the file. If it is located in another folder, it has to be specified in context.
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      # Do not touch or redirect the /app/node_modules folder, but map the rest of the application from ./server.
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      # Setup the environmental variables. If provided with value, then this value is used at run-time. If not, then local system should provided this environmental variable.
+      # Host is the name of the service specified above.
+      - REDIS_HOST=redis
+      # Default port.
+      - REDIS_PORT=6379
+      # Default values for postgres
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+  worker:
+    depends_on:
+      - redis
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./worker
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+  client:
+    depends_on:
+      - api
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - WDS_SOCKET_PORT=0
+  nginx:
+    # If nginx crashes, then nothing else works, so we want to always restart it on failure
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      # 3050 is just an arbitrary number to be routed to nginx on port 80
+      - '3050:80'
+    # To ensure there are no problems we can specify the dependencies of this service
+    depends_on:
+      - api
+      - client
