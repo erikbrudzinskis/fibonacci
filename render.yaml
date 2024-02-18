@@ -38,10 +38,10 @@ services:
       url: docker.io/erikbrudzinskis/fibonacci-worker:master
     envVars:
       - key: REDIS_HOST
-          fromService:
-            type: redis
-            name: redis
-            property: host
+        fromService:
+          type: redis
+          name: redis
+          property: host
       - key: REDIS_PORT
         fromService:
           type: redis
@@ -55,10 +55,10 @@ services:
       url: docker.io/erikbrudzinskis/fibonacci-client:master
     envVars:
       - key: REDIS_HOST
-          fromService:
-            type: redis
-            name: redis
-            property: host
+        fromService:
+          type: redis
+          name: redis
+          property: host
       - key: REDIS_PORT
         fromService:
           type: redis
