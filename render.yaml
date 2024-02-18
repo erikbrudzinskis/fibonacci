@@ -1,37 +1,75 @@
 services:
-  - type: web
-    name: postgres
-    runtime: image
-    plan: free
-    image:
-      url: docker.io/library/postgres:latest
-  - type: web
+  - type: redis
     name: redis
-    runtime: image
     plan: free
-    image:
-      url: docker.io/library/redis:latest
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
   - type: web
-    name: api
+    name: server
     runtime: image
     plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-server:master
+    envVars:
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: redis
+          property: port
+      - key: PGHOST
+        fromDatabase:
+          name: postgres
+          property: connectionString
+      - key: PGPORT
+        fromDatabase:
+          name: postgres
+          property: port
   - type: web
     name: worker
     runtime: image
     plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-worker:master
+    envVars:
+      - key: REDIS_HOST
+          fromService:
+            type: redis
+            name: redis
+            property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: redis
+          property: port
   - type: web
     name: client
     runtime: image
     plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-client:master
+    envVars:
+      - key: REDIS_HOST
+          fromService:
+            type: redis
+            name: redis
+            property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: redis
+          property: port
   - type: web
     name: nginx
     runtime: image
     plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-nginx:master
+databases:
+  - name: postgres
+    plan: free
