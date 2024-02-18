@@ -2,30 +2,36 @@ services:
   - type: web
     name: postgres
     runtime: image
+    plan: free
     image:
       url: docker.io/library/postgres:latest
   - type: web
     name: redis
     runtime: image
+    plan: free
     image:
       url: docker.io/library/redis:latest
   - type: web
     name: api
     runtime: image
+    plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-api:latest
   - type: web
     name: worker
     runtime: image
+    plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-worker:latest
   - type: web
     name: client
     runtime: image
+    plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-client:latest
   - type: web
     name: nginx
     runtime: image
+    plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-nginx:latest
