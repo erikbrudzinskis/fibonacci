@@ -16,22 +16,22 @@ services:
     runtime: image
     plan: free
     image:
-      url: docker.io/erikbrudzinskis/fibonacci-api:latest
+      url: docker.io/erikbrudzinskis/fibonacci-api:master
   - type: web
     name: worker
     runtime: image
     plan: free
     image:
-      url: docker.io/erikbrudzinskis/fibonacci-worker:latest
+      url: docker.io/erikbrudzinskis/fibonacci-worker:master
   - type: web
     name: client
     runtime: image
     plan: free
     image:
-      url: docker.io/erikbrudzinskis/fibonacci-client:latest
+      url: docker.io/erikbrudzinskis/fibonacci-client:master
   - type: web
     name: nginx
     runtime: image
     plan: free
     image:
-      url: docker.io/erikbrudzinskis/fibonacci-nginx:latest
+      url: docker.io/erikbrudzinskis/fibonacci-nginx:master
