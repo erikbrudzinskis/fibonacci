@@ -70,6 +70,27 @@ services:
     plan: free
     image:
       url: docker.io/erikbrudzinskis/fibonacci-nginx:master
+    envVars:
+      - key: FRONTEND_HOST
+        fromService:
+          type: web
+          name: client
+          property: host
+      - key: FRONTEND_PORT
+        fromService:
+          type: web
+          name: client
+          property: port
+      - key: BACKEND_HOST
+        fromService:
+          type: web
+          name: server
+          property: host
+      - key: BACKEND_PORT
+        fromService:
+          type: web
+          name: server
+          property: port
 databases:
   - name: postgres
     plan: free
