@@ -20,13 +20,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./client/Dockerfile
+          - context: ./client
             image: erikbrudzinskis/fibonacci-client
-          - dockerfile: ./nginx/Dockerfile
+          - context: ./nginx
             image: erikbrudzinskis/fibonacci-nginx
-          - dockerfile: ./server/Dockerfile
+          - context: ./server
             image: erikbrudzinskis/fibonacci-server
-          - dockerfile: ./worker/Dockerfile
+          - context: ./worker
             image: erikbrudzinskis/fibonacci-worker
     permissions:
       contents: read
@@ -51,8 +51,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
+          file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
