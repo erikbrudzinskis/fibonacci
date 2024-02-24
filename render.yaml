@@ -30,7 +30,7 @@ services:
         fromDatabase:
           name: postgres
           property: port
-  - type: worker
+  - type: web
     name: worker
     runtime: image
     plan: free
