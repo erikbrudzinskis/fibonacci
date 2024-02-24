@@ -25,7 +25,7 @@ services:
       - key: PGHOST
         fromDatabase:
           name: postgres
-          property: connectionString
+          property: host
       - key: PGPORT
         fromDatabase:
           name: postgres
