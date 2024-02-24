@@ -12,7 +12,7 @@ const sub = redisClient.duplicate();
 // Not the optimal solution for Fibonacci, however it is good for the purposes of this example project
 function fib(index) {
     if (index < 2) return 1;
-    return fib(index - 1) + fib (index - 2);
+    return fib(index - 1) + fib(index - 2);
 }
 
 sub.on('message', (channel, message) => {
@@ -28,6 +28,10 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+});
 
 app.listen(5000, err => {
     console.log('Listening')
